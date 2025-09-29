@@ -4,19 +4,20 @@ import random
 # Data Structures
 # =========================
 class Course:
-    def __init__(self, name, teacher, num_classes=1):
+    def __init__(self, name, teachers, num_classes=1):
         self.name = name
-        self.teacher = teacher
+        self.teachers = teachers if isinstance(teachers, list) else [teachers]  # Support both single teacher and list
         self.num_classes = num_classes
 
 class CourseClass:
-    def __init__(self, course, section):
+    def __init__(self, course, section, teacher=None):
         self.course = course
         self.section = section  # "A", "B", "C"
+        self.teacher = teacher  # Specific teacher assigned to this section
         self.students = []
 
     def __repr__(self):
-        return f"{self.course.name}-{self.section}"
+        return f"{self.course.name}-{self.section} ({self.teacher})"
 
 class Room:
     def __init__(self, name, capacity, available_times):
@@ -80,8 +81,8 @@ class Schedule:
             else:
                 room_usage[key_room] = cclass
 
-            # Teacher conflict
-            key_teacher = (cclass.course.teacher, ts)
+            # Teacher conflict - now using the specific teacher assigned to this section
+            key_teacher = (cclass.teacher, ts)
             if key_teacher in teacher_usage:
                 penalty += 1000
             else:
@@ -122,28 +123,52 @@ def mutate(schedule):
     valid_pairs = [(room, ts) for room in schedule.rooms for ts in schedule.timeslots if ts.id in room.available_times]
     schedule.assignments[cclass] = random.choice(valid_pairs)
 
-def genetic_algorithm(courses, rooms, timeslots, students, population_size=50, generations=100):
-    # expand courses into CourseClass (A, B, C)
+def assign_teachers_to_sections(courses):
+    """Assign teachers to course sections using round-robin or random assignment"""
     course_classes = []
+    
     for course in courses:
+        available_teachers = course.teachers.copy()
+        
         for i in range(course.num_classes):
-            course_classes.append(CourseClass(course, chr(65+i)))
+            section_letter = chr(65 + i)  # A, B, C, etc.
+            
+            # Strategy 1: Round-robin assignment
+            teacher = available_teachers[i % len(available_teachers)]
+            
+            # Strategy 2: Random assignment (uncomment to use)
+            # teacher = random.choice(available_teachers)
+            
+            # Strategy 3: Prefer one teacher per section if possible (uncomment to use)
+            # if i < len(available_teachers):
+            #     teacher = available_teachers[i]
+            # else:
+            #     teacher = random.choice(available_teachers)
+            
+            course_class = CourseClass(course, section_letter, teacher)
+            course_classes.append(course_class)
+    
+    return course_classes
 
-    # assign students into classes (round-robin for simplicity)
+def genetic_algorithm(courses, rooms, timeslots, students, population_size=50, generations=100):
+    # Expand courses into CourseClass with assigned teachers
+    course_classes = assign_teachers_to_sections(courses)
+
+    # Assign students to classes (round-robin for simplicity)
     for student in students:
         for cname in student.courses:
             selected_classes = [c for c in course_classes if c.course.name == cname]
             target = min(selected_classes, key=lambda x: len(x.students))
             target.students.append(student)
 
-    # init population
+    # Initialize population
     population = []
     for _ in range(population_size):
         s = Schedule(course_classes, rooms, timeslots)
         s.randomize()
         population.append(s)
 
-    # evolution loop
+    # Evolution loop
     for gen in range(generations):
         scored = [(s.fitness(students), s) for s in population]
         scored.sort(key=lambda x: x[0])
@@ -170,15 +195,50 @@ def genetic_algorithm(courses, rooms, timeslots, students, population_size=50, g
 # Example Usage
 # =========================
 if __name__ == "__main__":
+    # Now courses can have multiple teachers
     courses = [
-        Course("Math", "Dr. A", num_classes=2),
-        Course("Physics", "Dr. B", num_classes=1),
-        Course("CS", "Dr. C", num_classes=2)
+        Course("Aljabar Linier dan Geometri", ["Ramadhan Paninggalih"], num_classes=3),
+        Course("Arsitektur Komputer", ["Aninditya Anggari Nuryono", "Aninditya Anggari Nuryono", "Riska Kurniyanto Abdullah"], num_classes=3),
+        Course("Capstone Project", ["Ramadhan Paninggalih"], num_classes=1),
+        Course("Deep Learning", ["Boby Mugi Pratama"], num_classes=1),
+        Course("Desain Web", ["Rizal Kusuma Putra"], num_classes=2),
+        Course("Implementasi dan Pengujian Perangkat Lunak", ["Nur Fajri Azhar"],
+                num_classes=3),
+        Course("Interaksi Manusia dan Komputer", ["Nisa Rizqiya Fadhliana"], 
+                num_classes=3),
+        Course("Kapita Selekta", ["Nisa Rizqiya Fadhliana"], num_classes=1),
+        Course("Keamanan Siber (Pengayaan)", ["Darmansyah"], num_classes=1),
+        Course("Kecerdasan Web", ["Gusti Ahmad Fanshuri Alfarisy"],
+                num_classes=1),
+        Course("Keprofesian Informatika", ["Nur Fajri Azhar", "Darmansyah"], num_classes=2),
+        Course("Kerja Praktek", ["Nisa Rizqiya Fadhliana"], num_classes=1),
+        Course("Komputasi Evolusioner", ["Muchammad Chandra Cahyo Utomo"], num_classes=1), 
+        Course("Manajemen Basis Data", ["Bowo Nugroho"], num_classes=3),
+        Course("Manajemen Proyek TIK", ["Riska Kurniyanto Abdullah"],
+                num_classes=1),
+        Course("Matematika Diskrit", ["Ramadhan Paninggalih"], num_classes=2),
+        Course("Pemrograman Fungsional", ["Gusti Ahmad Fanshuri Alfarisy"], num_classes=2),
+        Course("Pemrosesan Bahasa Alami", ["Bima Prihasto"], num_classes=1),
+        Course("Pengantar Informatika", ["Muchammad Chandra Cahyo Utomo"],
+                num_classes=2),
+        Course("Pengantar Kecerdasan Artifisial", ["Bima Prihasto", "Bima Prihasto", "Gusti Ahmad Fanshuri Alfarisy"], num_classes=3),
+        Course("Pengembangan Aplikasi Perangkat Bergerak", ["Rizal Kusuma Putra"], num_classes=2),
+        Course("Pengolahan Citra Digital", ["Rizky Amelia"], num_classes=2),
+        Course("Proposal Tugas Akhir", ["Nisa Rizqiya Fadhliana"], num_classes=1),
+        Course("Sains Data (Pengayaan)", ["Ramadhan Paninggalih"], num_classes=1),
+        Course("Sistem Digital", ["Boby Mugi Pratama"], num_classes=3),
+        Course("Sistem Operasi", ["Darmansyah"], num_classes=3),
+        Course("Sistem Paralel dan Terdistribusi", ["Riska Kurniyanto Abdullah"], num_classes=2),
+        Course("Struktur Data", ["Muchammad Chandra Cahyo Utomo", "Muchammad Chandra Cahyo Utomo", "Bowo Nugroho"], num_classes=3),
+        Course("Tugas Akhir", ["Nisa Rizqiya Fadhliana"], num_classes=1),
+        Course("Visi Komputer", ["Rizky Amelia"], num_classes=1),
+
     ]
 
     rooms = [
         Room("R1", 30, {1,2,3,4}),
         Room("R2", 20, {2,3,5}),
+        Room("R3", 25, {1,2,4,5}),
         Room("Lab", 25, {1,3,4,5})
     ]
 
@@ -195,11 +255,27 @@ if __name__ == "__main__":
         Student("S2", ["Math", "CS"]),
         Student("S3", ["Physics", "CS"]),
         Student("S4", ["Math", "CS"]),
-        Student("S5", ["CS"]),
+        Student("S5", ["CS", "Physics"]),
+        Student("S6", ["Math"]),
+        Student("S7", ["Physics"]),
+        Student("S8", ["Math", "CS"]),
     ]
 
     best = genetic_algorithm(courses, rooms, timeslots, students, generations=50)
 
     print("\n=== BEST SCHEDULE ===")
     for cclass, (room, ts) in best.assignments.items():
-        print(f"{cclass} -> {room.name} at {ts}")
+        student_count = len(cclass.students)
+        print(f"{cclass} -> {room.name} at {ts} ({student_count} students)")
+    
+    print("\n=== TEACHER ASSIGNMENTS ===")
+    teacher_schedule = {}
+    for cclass, (room, ts) in best.assignments.items():
+        if cclass.teacher not in teacher_schedule:
+            teacher_schedule[cclass.teacher] = []
+        teacher_schedule[cclass.teacher].append((cclass, room, ts))
+    
+    for teacher, assignments in teacher_schedule.items():
+        print(f"\n{teacher}:")
+        for cclass, room, ts in assignments:
+            print(f"  {cclass.course.name}-{cclass.section} in {room.name} at {ts}")
