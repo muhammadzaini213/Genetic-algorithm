@@ -123,7 +123,7 @@ def genetic_algorithm(courses, rooms, timeslots, students, population_size=50,
             while len(children) < population_size//2:
                 p1, p2 = random.sample(survivors, 2)
                 child = crossover(p1, p2)
-                if random.random() < 0.1:  # mutation rate
+                if random.random() < 0.3:  # mutation rate
                     mutate(child)
                 children.append(child)
 
