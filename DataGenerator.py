@@ -44,10 +44,9 @@ def angkatan23():
                                              "Desain Web", "Pemrograman Fungsional",            
                                              "Pengembangan Aplikasi Perangkat Bergerak"]))
     for i in range (10, 40):
-        akt23.append(Student(f"112310{i}", ["Implementasi dan Pengujian Perangkat Lunak",
-                                             "Interaksi Manusia dan Komputer",                                                                    "Pengantar Kecerdasan Artifisial",
-                                             "Manajemen Basis Data",                            
-                                             "Desain Web", "Pemrograman Fungsional",]))
+        akt23.append(Student(f"112310{i}", ["Implementasi dan Pengujian Perangkat Lunak",                                                   "Pengantar Kecerdasan Artifisial",
+                                             "Manajemen Basis Data",
+                                            "Pemrograman Fungsional",]))
     for i in range (40,93):
         akt23.append(Student(f"112310{i}", ["Interaksi Manusia dan Komputer",                                                                    "Pengantar Kecerdasan Artifisial",
                                              "Manajemen Basis Data",

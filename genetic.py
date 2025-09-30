@@ -143,7 +143,7 @@ if __name__ == "__main__":
     print("\n=== Jadwal Terbaik ===")
     for cclass, (room, ts) in best.assignments.items():
         student_count = len(cclass.students)
-        print(f"{cclass} -> {room.name} di {ts} ({student_count} students)")
+        print(f"{cclass} -> {room.name} di {ts} ({student_count} mahasiswa)")
 
     print("\n=== Jadwal Dosen ===")
     teacher_schedule = {}
