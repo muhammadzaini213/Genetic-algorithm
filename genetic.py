@@ -43,10 +43,11 @@ class Schedule:
                 teacher_usage[key_teacher] = cclass
 
             # Kelebihan kapasitas, kecil aja
-            if len(cclass.students) > room.capacity:
-                penalty += 1 * (len(cclass.students) - room.capacity)
+            over = len(cclass.students) - room.capacity
+            if over > 30:  # abaikan sampai 20 siswa
+                penalty += over-30  # hanya kelebihan > 20 dihitung
 
-        # Konflik mahasiswa
+    # Konflik mahasiswa
         for student in students:
             taken = {}
             for cclass in self.course_classes:
@@ -138,12 +139,12 @@ if __name__ == "__main__":
     best = genetic_algorithm(courses_data, rooms_data, timeslots_data, students,
                              generations=100)
 
-    print("\n=== BEST SCHEDULE ===")
+    print("\n=== Jadwal Terbaik ===")
     for cclass, (room, ts) in best.assignments.items():
         student_count = len(cclass.students)
-        print(f"{cclass} -> {room.name} at {ts} ({student_count} students)")
+        print(f"{cclass} -> {room.name} di {ts} ({student_count} students)")
 
-    print("\n=== TEACHER ASSIGNMENTS ===")
+    print("\n=== Jadwal Dosen ===")
     teacher_schedule = {}
     for cclass, (room, ts) in best.assignments.items():
         if cclass.teacher not in teacher_schedule:
@@ -153,4 +154,4 @@ if __name__ == "__main__":
     for teacher, assignments in teacher_schedule.items():
         print(f"\n{teacher}:")
         for cclass, room, ts in assignments:
-            print(f"  {cclass.course.name}-{cclass.section} in {room.name} at {ts}")
+            print(f"  {cclass.course.name}-{cclass.section} di {room.name} pada {ts}")
