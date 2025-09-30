@@ -123,7 +123,7 @@ def genetic_algorithm(courses, rooms, timeslots, students, population_size=50,
             while len(children) < population_size//2:
                 p1, p2 = random.sample(survivors, 2)
                 child = crossover(p1, p2)
-                if random.random() < 0.01:  # mutation rate
+                if random.random() < 0.05:  # mutation rate
                     mutate(child)
                 children.append(child)
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     students = angkatan25() + angkatan24() + angkatan23()
 
     best = genetic_algorithm(courses_data, rooms_data, timeslots_data, students,
-                             population_size=100,
+                             population_size=1000,
                              generations=100)
 
     print("\n=== Jadwal Terbaik ===")
