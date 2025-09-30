@@ -3,10 +3,12 @@ def angkatan25():
     akt25 = []
     for i in range (1,10):
         akt25.append(Student(f"1125100{i}", ["Matematika Diskrit", 
-                                            "Pengantar Informatika"]))
+                                            "Pengantar Informatika",
+                                             "Sistem Digital"]))
     for i in range (10, 99):
          akt25.append(Student(f"1125100{i}", ["Matematika Diskrit",             
-                                              "Pengantar Informatika"]))
+                                              "Pengantar Informatika",
+                                              "Sistem Digital"]))
     return akt25
 
 def angkatan24():
