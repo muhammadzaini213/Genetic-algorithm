@@ -3,19 +3,16 @@ from DataTypes import Course, Room, Timeslot
 courses_data = [
     Course("Aljabar Linier dan Geometri", ["Ramadhan Paninggalih"], num_classes=3),
     Course("Arsitektur Komputer", ["Aninditya Anggari Nuryono", "Aninditya Anggari Nuryono", "Riska Kurniyanto Abdullah"], num_classes=3),
-    Course("Capstone Project", ["Ramadhan Paninggalih"], num_classes=1),
     Course("Deep Learning", ["Boby Mugi Pratama"], num_classes=1),
     Course("Desain Web", ["Rizal Kusuma Putra"], num_classes=2),
     Course("Implementasi dan Pengujian Perangkat Lunak", ["Nur Fajri Azhar"],
            num_classes=3),
     Course("Interaksi Manusia dan Komputer", ["Nisa Rizqiya Fadhliana"], 
            num_classes=3),
-    Course("Kapita Selekta", ["Nisa Rizqiya Fadhliana"], num_classes=1),
     Course("Keamanan Siber (Pengayaan)", ["Darmansyah"], num_classes=1),
     Course("Kecerdasan Web", ["Gusti Ahmad Fanshuri Alfarisy"],
            num_classes=1),
     Course("Keprofesian Informatika", ["Nur Fajri Azhar", "Darmansyah"], num_classes=2),
-    Course("Kerja Praktek", ["Nisa Rizqiya Fadhliana"], num_classes=1),
     Course("Komputasi Evolusioner", ["Muchammad Chandra Cahyo Utomo"], num_classes=1), 
     Course("Manajemen Basis Data", ["Bowo Nugroho"], num_classes=3),
     Course("Manajemen Proyek TIK", ["Riska Kurniyanto Abdullah"],
@@ -34,7 +31,6 @@ courses_data = [
     Course("Sistem Operasi", ["Darmansyah"], num_classes=3),
     Course("Sistem Paralel dan Terdistribusi", ["Riska Kurniyanto Abdullah"], num_classes=2),
     Course("Struktur Data", ["Muchammad Chandra Cahyo Utomo", "Muchammad Chandra Cahyo Utomo", "Bowo Nugroho"], num_classes=3),
-    Course("Tugas Akhir", ["Nisa Rizqiya Fadhliana"], num_classes=1),
     Course("Visi Komputer", ["Rizky Amelia"], num_classes=1),
 
 ]
@@ -58,10 +54,10 @@ rooms_data = [
     Room("E-301", 60, {2,3,19}),
     Room("E-302", 40, {14}),
     Room("E-303", 40, {13,19}),
-    Room("E-304", 40, {7}),
-    Room("E-305", 100, {3,4,7,9,11}),
-    Room("E-306", 40, {6,11}),
-    Room("E-307", 40, {1,7,11,16,18}),
+    Room("E-304", 40, {8}),
+    Room("E-305", 100, {3,4,7,9,12}),
+    Room("E-306", 40, {8,13}),
+    Room("E-307", 40, {1,8,12,16,18}),
     Room("F-103", 40, {1}),
 ]
 

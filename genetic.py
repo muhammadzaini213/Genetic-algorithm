@@ -26,12 +26,12 @@ class Schedule:
 
             # Ketersediaan ruangan
             if ts.id not in room.available_times:
-                penalty += 1000000
+                penalty += 10_000_000
 
             # Konflik ruangan
             key_room = (room, ts)
             if key_room in room_usage:
-                penalty += 10000
+                penalty += 100_000
             else:
                 room_usage[key_room] = cclass
 
@@ -54,7 +54,7 @@ class Schedule:
                 if cclass.course.name in student.courses and student in cclass.students:
                     room, ts = self.assignments[cclass]
                     if ts in taken:
-                        penalty += 1000
+                        penalty += 10
                     else:
                         taken[ts] = cclass
 
@@ -113,7 +113,7 @@ def genetic_algorithm(courses, rooms, timeslots, students, population_size=50,
             scored = [(s.fitness(students), s) for s in population]
             scored.sort(key=lambda x: x[0])
             best_score, best_schedule = scored[0]
-            print(f"Gen {gen} best fitness = {round(best_score, 2)}")
+            print(f"Gen {gen} best fitness = {best_score}")
 
             if best_score == 0:
                 return best_schedule
@@ -123,7 +123,7 @@ def genetic_algorithm(courses, rooms, timeslots, students, population_size=50,
             while len(children) < population_size//2:
                 p1, p2 = random.sample(survivors, 2)
                 child = crossover(p1, p2)
-                if random.random() < 0.25:  # mutation rate
+                if random.random() < 0.01:  # mutation rate
                     mutate(child)
                 children.append(child)
 
@@ -137,6 +137,7 @@ if __name__ == "__main__":
     students = angkatan25() + angkatan24() + angkatan23()
 
     best = genetic_algorithm(courses_data, rooms_data, timeslots_data, students,
+                             population_size=100,
                              generations=100)
 
     print("\n=== Jadwal Terbaik ===")
@@ -155,3 +156,5 @@ if __name__ == "__main__":
         print(f"\n{teacher}:")
         for cclass, room, ts in assignments:
             print(f"  {cclass.course.name}-{cclass.section} di {room.name} pada {ts}")
+
+
