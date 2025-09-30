@@ -134,7 +134,7 @@ def genetic_algorithm(courses, rooms, timeslots, students, population_size=50,
 
 if __name__ == "__main__":
     
-    students = angkatan25() + angkatan24() + angkatan23()
+    students = angkatan24() + angkatan23()
 
     best = genetic_algorithm(courses_data, rooms_data, timeslots_data, students,
                              population_size=1000,
