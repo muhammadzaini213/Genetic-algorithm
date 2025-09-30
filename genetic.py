@@ -26,7 +26,7 @@ class Schedule:
 
             # Ketersediaan ruangan
             if ts.id not in room.available_times:
-                penalty += 10_000_000
+                penalty += 100_000
 
             # Konflik ruangan
             key_room = (room, ts)
@@ -38,7 +38,7 @@ class Schedule:
             # Konflik dosen
             key_teacher = (cclass.teacher, ts)
             if key_teacher in teacher_usage:
-                penalty += 1000
+                penalty += 100_000
             else:
                 teacher_usage[key_teacher] = cclass
 
@@ -54,7 +54,7 @@ class Schedule:
                 if cclass.course.name in student.courses and student in cclass.students:
                     room, ts = self.assignments[cclass]
                     if ts in taken:
-                        penalty += 10
+                        penalty += 100_000
                     else:
                         taken[ts] = cclass
 
