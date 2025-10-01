@@ -23,9 +23,16 @@ def angkatan24():
                                              "Sistem Operasi", "Struktur Data"]))
     for i in range (10, 40):
         akt24.append(Student(f"112410{i}", ["Aljabar Linier dan Geometri",
-                                             "Arsitektur Komputer",                                                                 "Pengantar Kecerdasan Artifisial",                                                      "Sistem Operasi", "Struktur Data"]))
+                                            "Arsitektur Komputer",
+                                            "Pengantar Kecerdasan Artifisial",
+                                            "Sistem Operasi", 
+                                            "Struktur Data"]))
     for i in range (40, 70):
-        akt24.append(Student(f"112410{i}", ["Aljabar Linier dan Geometri",                                                           "Arsitektur Komputer",                                                                 "Pengantar Kecerdasan Artifisial",                                                      "Sistem Operasi", "Struktur Data"]))
+        akt24.append(Student(f"112410{i}", ["Aljabar Linier dan Geometri",                  
+                                            "Arsitektur Komputer",                              
+                                            "Pengantar Kecerdasan Artifisial",              
+                                            "Sistem Operasi", 
+                                            "Struktur Data"]))
     for i in range (70,93):
         akt24.append(Student(f"112410{i}", ["Aljabar Linier dan Geometri",
                                             "Arsitektur Komputer",
@@ -44,7 +51,8 @@ def angkatan23():
                                              "Desain Web", "Pemrograman Fungsional",            
                                              "Pengembangan Aplikasi Perangkat Bergerak"]))
     for i in range (10, 40):
-        akt23.append(Student(f"112310{i}", ["Implementasi dan Pengujian Perangkat Lunak",                                                   "Pengantar Kecerdasan Artifisial",
+        akt23.append(Student(f"112310{i}", ["Implementasi dan Pengujian Perangkat Lunak",       
+                                            "Pengantar Kecerdasan Artifisial",
                                              "Manajemen Basis Data",
                                             "Pemrograman Fungsional",]))
     for i in range (40,93):
@@ -54,7 +62,4 @@ def angkatan23():
                                              "Desain Web", "Pemrograman Fungsional",]))
     return akt23
 
-def angkatan22():
-    akt22 = []
-    for i in range(0,10):
-        akt22.append(Student(f"1122100{i}", []))
+
