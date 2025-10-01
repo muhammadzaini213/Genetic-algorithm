@@ -137,7 +137,7 @@ if __name__ == "__main__":
     students = angkatan24() + angkatan23() + angkatan25()
 
     best = genetic_algorithm(courses_data, rooms_data, timeslots_data, students,
-                             population_size=1000000,
+                             population_size=1000,
                              generations=100)
 
     print("\n=== Jadwal Terbaik ===")
